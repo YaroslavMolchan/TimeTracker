@@ -2,8 +2,9 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class CreateObserversTable extends Migration
+class CreateStatisticsTable extends Migration
 {
 
 	/**
@@ -13,9 +14,11 @@ class CreateObserversTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('observers', function(Blueprint $table) {
+		Schema::create('statistics', function(Blueprint $table) {
             $table->increments('id');
-
+            $table->unsignedInteger('user_id');
+            $table->date('date');
+            $table->jsonb('times')->nullable();
             $table->timestamps();
 		});
 	}
@@ -27,7 +30,7 @@ class CreateObserversTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::drop('observers');
+		Schema::drop('statistics');
 	}
 
 }

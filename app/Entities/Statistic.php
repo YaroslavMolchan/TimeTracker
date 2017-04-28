@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class Observer extends Model implements Transformable
+class Statistic extends Model implements Transformable
 {
     use TransformableTrait;
 
     protected $fillable = [];
+
+    protected $casts = [
+        'dates' => 'json'
+    ];
 
 }

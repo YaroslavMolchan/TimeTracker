@@ -1,0 +1,70 @@
+*{
+    transition: all .2s ease;
+}
+body {
+    background: #383A43;
+    background: -webkit-radial-gradient(center center, circle cover, #42444c,#383A43,#2E3037); /* Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(center center, circle cover, #42444c,#383A43,#2E3037); /* For Opera 11.6 to 12.0 */
+    background: -moz-radial-gradient(center center, circle cover,#42444c,#383A43,#2E3037); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(center center, circle cover,#42444c,#383A43,#2E3037);
+
+}
+.fa-clock-o {
+    font-size: 80px;
+    pdding-top:100px;
+    color:#1da1f2;
+    text-shadow: 0px 0px 10px #1da1f2;
+}
+.tweet {
+    margin-top: 100px;
+}
+.list {
+    color: #fff;
+    list-style: none;
+    padding-left: 0px;
+    display:block;
+}
+.list> li {
+    padding:20px 30px;
+    display:inline;
+    font-size:28px;
+    margin:-1px;
+    color:#2E3037;
+    background: linear-gradient(#5d606d,#2b2d33);
+    box-shadow: 0px 0px 2px 2px #2E3037;
+}
+.list> li a {
+    color:#2E3037;
+}
+.list> li:first-of-type
+{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+}
+.list> li:last-of-type
+{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.list>li:hover {
+    color:red;
+    text-shadow: 2px 2px 10px #C90101;
+    background: linear-gradient(#383A43,#151619);
+    border:1px solid #424448;
+    box-shadow: 0px 0px 10px 3px #151619;
+
+    padding:22px 30px;
+    cursor:pointer;
+}
+.list>li:active
+{
+    background:linear-gradient(#2c2e38,#060708);
+    padding:20px 30px;
+}
+
+.list>li:hover a {
+    color:red;
+    cursor:pointer;
+}

@@ -4,15 +4,15 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Contracts\ObserverRepository;
-use App\Entities\Observer;
-use App\Validators\ObserverValidator;
+use App\Contracts\StatisticRepository;
+use App\Entities\Statistic;
+use App\Validators\StatisticValidator;
 
 /**
- * Class ObserverRepositoryEloquent
+ * Class StatisticRepositoryEloquent
  * @package namespace App\Repositories;
  */
-class ObserverRepositoryEloquent extends BaseRepository implements ObserverRepository
+class StatisticRepositoryEloquent extends BaseRepository implements StatisticRepository
 {
     /**
      * Specify Model class name
@@ -21,7 +21,7 @@ class ObserverRepositoryEloquent extends BaseRepository implements ObserverRepos
      */
     public function model()
     {
-        return Observer::class;
+        return Statistic::class;
     }
 
     
