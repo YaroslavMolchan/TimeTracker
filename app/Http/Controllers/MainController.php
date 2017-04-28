@@ -6,6 +6,11 @@ class MainController extends Controller
 {
     public function index()
     {
-        return view('main.index');
+        if (\Auth::check() && request()->ip() == '91.224.97.5') {
+            dd(1);
+        }
+        else {
+            return view('main.index');
+        }
     }
 }
