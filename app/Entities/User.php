@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -20,6 +21,11 @@ class User extends Authenticatable
         'google_user_id',
         'avatar'
     ];
+
+    public function dailyStatistic()
+    {
+        return $this->statistics->where('date', Carbon::now()->toDateString())->first();
+    }
 
     public function statistics()
     {

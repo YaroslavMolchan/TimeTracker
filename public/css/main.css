@@ -2,6 +2,7 @@
     transition: all .2s ease;
 }
 body {
+    color:#1da1f2;
     background: #383A43;
     background: -webkit-radial-gradient(center center, circle cover, #42444c,#383A43,#2E3037); /* Safari 5.1 to 6.0 */
     background: -o-radial-gradient(center center, circle cover, #42444c,#383A43,#2E3037); /* For Opera 11.6 to 12.0 */
