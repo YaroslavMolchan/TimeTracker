@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\Schema;
 
-class CreateStatisticsTable extends Migration
+class CreateStatisticTimesTable extends Migration
 {
 
 	/**
@@ -14,15 +13,15 @@ class CreateStatisticsTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('statistics', function(Blueprint $table) {
+		Schema::create('statistic_times', function(Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->date('date');
+            $table->unsignedInteger('statistic_id');
             $table->bigInteger('total')->nullable()->default(0);
-            $table->timestamps();
+            $table->dateTime('started_at');
+            $table->dateTime('finished_at')->nullable();
 
-            $table->foreign('user_id')
-                ->references('id')->on('users')
+            $table->foreign('statistic_id')
+                ->references('id')->on('statistics')
                 ->onDelete('cascade');
 		});
 	}
@@ -34,7 +33,7 @@ class CreateStatisticsTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::drop('statistics');
+		Schema::drop('statistic_times');
 	}
 
 }

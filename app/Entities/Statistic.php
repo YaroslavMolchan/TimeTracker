@@ -6,14 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class Statistic extends Model implements Transformable
+class Statistic extends Model
 {
-    use TransformableTrait;
+    protected $guarded = ['id'];
 
-    protected $fillable = [];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-    protected $casts = [
-        'dates' => 'json'
-    ];
-
+    public function times()
+    {
+        return $this->hasMany(StatisticTime::class);
+    }
 }

@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('/', 'MainController@index');
+Route::get('/', 'TimerController@index');
 
 Route::get('login/google', 'Auth\LoginController@redirectToProvider')->name('login');
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
+
+Route::post('timer/start', 'TimerController@start')->name('timer.start');
+Route::post('timer/stop', 'TimerController@stop')->name('timer.stop');
