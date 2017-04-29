@@ -55,7 +55,7 @@ class TimerController extends Controller
         $action = $timerParams['isWorking'] ? 'stop' : 'play';
 
         JavaScript::put($timerParams);
-        return view('timer.index', compact('action'));
+        return view('timer.index', compact('action', 'user'));
     }
 
     public function start()

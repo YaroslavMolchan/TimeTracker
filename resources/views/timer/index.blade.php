@@ -5,7 +5,10 @@
         <div class="row">
             <div class="outer-div text-center">
                 <h1><i class="fa fa-clock-o" aria-hidden="true"></i></h1>
-                <h1 id="work-timer" class="work-timer"></h1>
+                @if(\Auth::check())
+                    <h1 id="work-timer" class="work-timer"></h1>
+                @endif
+                
                 <div class="col-md-12 tweet">
                     <ul class="list">
                         @if(!\Auth::check())
@@ -19,10 +22,11 @@
                 </div>
 
                 <div class="col-md-12 tweet">
-                    <p>Вы работаете 4 часа с 09:30</p>
-                    <p>Вы работаете 4 часа с 09:30</p>
-                    <p>Вы работаете 4 часа с 09:30</p>
-                    </div>
+                    @if(!is_null($user))
+                        @foreach($user->statistics->times as $time)
+                            <p>Начал: {!! $time->started_at !!}. Закончил: {!! $time->finished_at !!}. Время работы: {!! $time->total !!}</p>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>

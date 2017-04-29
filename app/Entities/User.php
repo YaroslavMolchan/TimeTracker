@@ -20,4 +20,9 @@ class User extends Authenticatable
         'google_user_id',
         'avatar'
     ];
+
+    public function statistics()
+    {
+        return $this->hasMany(Statistic::class);
+    }
 }

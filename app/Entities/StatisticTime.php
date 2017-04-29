@@ -10,11 +10,11 @@ class StatisticTime extends Model
 {
     protected $guarded = ['id'];
 
+    public $timestamps = false;
+
     protected $dates = [
         'started_at',
-        'finished_at',
-        'created_at',
-        'updated_at'
+        'finished_at'
     ];
 
     public function statistic()
