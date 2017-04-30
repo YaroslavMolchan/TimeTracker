@@ -22,9 +22,12 @@ class User extends Authenticatable
         'avatar'
     ];
 
-    public function dailyStatistic()
+    public function dailyStatistic($date = null)
     {
-        return $this->statistics->where('date', Carbon::now()->toDateString())->first();
+        if (is_null($date)) {
+            $date = Carbon::now();
+        }
+        return $this->statistics->where('date', $date->toDateString())->first();
     }
 
     public function statistics()

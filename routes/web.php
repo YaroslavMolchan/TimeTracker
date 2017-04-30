@@ -19,5 +19,8 @@ Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback
 Route::post('timer/start', 'TimerController@start')->name('timer.start');
 Route::post('timer/stop', 'TimerController@stop')->name('timer.stop');
 
-Route::post('statistic/daily-team', 'StatisticController@dailyTeam')->name('statistic.daily-team');
-Route::post('statistic/daily-user', 'StatisticController@dailyUser')->name('statistic.daily-user');
+Route::get('statistic/team/daily', 'StatisticController@dailyTeam')->name('statistic.daily-team');
+Route::get('statistic/team/weekly', 'StatisticController@weeklyTeam')->name('statistic.weekly-team');
+
+Route::post('statistic/team/daily', 'StatisticController@ajaxDailyTeam')->name('statistic.daily-team');
+Route::post('statistic/user/daily', 'StatisticController@ajaxDailyUser')->name('statistic.daily-user');
