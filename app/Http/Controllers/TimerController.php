@@ -34,27 +34,20 @@ class TimerController extends Controller
 
         $action = $timerParams['isWorking'] ? 'stop' : 'play';
 
-        $statistics = $this->statistics->findByField('date', Carbon::now()->toDateString());
-
-        return view('timer.index', compact('action', 'statistics'));
+        return view('timer.index', compact('action'));
     }
 
     public function start()
     {
+        /** @var Statistic $statistic */
         $statistic = $this->statistics->firstOrCreate([
             'user_id' => request()->user()->id,
             'date' => Carbon::now()->toDateString()
         ]);
 
-        $opened = $statistic->times->where('finished_at', null)->first();
+        $opened = $this->getOpenedTime($statistic);
         if (!empty($opened)) {
-            $finished_at = Carbon::now();
-            $total = $finished_at->getTimestamp() - $opened->started_at->getTimestamp();
-            $opened->update([
-                'total' => $total,
-                'finished_at' => $finished_at
-            ]);
-            $statistic->increment('total', $total);
+            $this->closeOpenedTime($opened, $statistic);
         }
 
         $statistic->times()->create([
@@ -63,38 +56,30 @@ class TimerController extends Controller
 
         return [
             'ok' => true,
+            'action' => 'resume',
             'view' => view('timer.buttons.stop')->render()
         ];
     }
 
     public function stop()
     {
-        $user = request()->user();
         /** @var Statistic $statistic */
-        $statistic = $this->statistics->findWhere([
-            'user_id' => $user->id,
-            'date' => Carbon::now()->toDateString()
-        ])->first();
+        $statistic = request()->user()->dailyStatistic();
         if (is_null($statistic)) {
             throw new NotFoundHttpException('You need to start working first.');
         }
 
-        /** @var StatisticTime $opened */
-        $opened = $statistic->times->where('finished_at', null)->first();
-        if (empty($opened)) {
+        $opened = $this->getOpenedTime($statistic);
+
+        if (is_null($opened)) {
             throw new NotFoundHttpException('You need to start working first.');
         }
 
-        $finished_at = Carbon::now();
-        $total = $finished_at->getTimestamp() - $opened->started_at->getTimestamp();
-        $opened->update([
-            'total' => $total,
-            'finished_at' => $finished_at
-        ]);
-        $statistic->increment('total', $total);
+        $this->closeOpenedTime($opened, $statistic);
 
         return [
             'ok' => true,
+            'action' => 'pause',
             'view' => view('timer.buttons.play')->render()
         ];
     }
@@ -115,9 +100,9 @@ class TimerController extends Controller
             $statistic = $user->dailyStatistic();
             $timerParams['dailyTime'] = $statistic->total;
             /** @var StatisticTime $opened */
-            $opened = $statistic->times->where('finished_at', null)->first();
+            $opened = $this->getOpenedTime($statistic);
             if (!is_null($opened)) {
-                $total = Carbon::now()->getTimestamp() - $opened->started_at->getTimestamp();
+                $total = $this->getTotalOpenedTime($opened, Carbon::now());
                 $timerParams['dailyTime'] += $total;
                 $timerParams['isWorking'] = true;
             }
@@ -125,5 +110,42 @@ class TimerController extends Controller
         JavaScript::put($timerParams);
 
         return $timerParams;
+    }
+
+    /**
+     * @param $opened
+     * @param $statistic
+     */
+    protected function closeOpenedTime($opened, $statistic)
+    {
+        $finished_at = Carbon::now();
+        $total = $this->getTotalOpenedTime($opened, $finished_at);
+        $opened->update([
+            'total' => $total,
+            'finished_at' => $finished_at
+        ]);
+        $statistic->increment('total', $total);
+    }
+
+    /**
+     * @param $statistic
+     * @return StatisticTime
+     */
+    protected function getOpenedTime($statistic)
+    {
+        /** @var StatisticTime $opened */
+        $opened = $statistic->times->where('finished_at', null)->first();
+        return $opened;
+    }
+
+    /**
+     * @param $opened
+     * @param $finished_at
+     * @return mixed
+     */
+    protected function getTotalOpenedTime($opened, $finished_at)
+    {
+        $total = $finished_at->getTimestamp() - $opened->started_at->getTimestamp();
+        return $total;
     }
 }

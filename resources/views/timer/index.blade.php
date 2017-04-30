@@ -16,11 +16,17 @@
                         @else
                             @include('timer.buttons.'.$action)
                         @endif
-                        <li>
-                            <a href="{!! route('statistic.daily-user') !!}" class="daily-user"><i class="fa fa-info"></i></a>
-                        </li>
-                        <li>
-                            <a href="{!! route('statistic.daily-team') !!}" class="daily-team"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+                        @if(\Auth::check())
+                            <li data-toggle="tooltip" data-placement="top" title="Your daily statistic">
+                                <a href="{!! route('statistic.daily-user') !!}" class="get-statistic">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                            </li>
+                        @endif
+                        <li data-toggle="tooltip" data-placement="top" title="Team daily statistic">
+                            <a href="{!! route('statistic.daily-team') !!}" class="get-statistic">
+                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>

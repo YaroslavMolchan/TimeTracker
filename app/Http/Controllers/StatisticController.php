@@ -19,16 +19,28 @@ class StatisticController extends Controller
      */
     public function __construct(StatisticRepository $statistics)
     {
+        $this->middleware('auth', ['except' => ['dailyTeam']]);
+
         $this->statistics = $statistics;
     }
 
     public function dailyTeam()
     {
-        return view('statistic.daily-team');
+        $statistics = $this->statistics->findByField('date', Carbon::now()->toDateString());
+
+        return [
+            'ok' => true,
+            'view' => view('statistic.daily-team', compact('statistics'))->render()
+        ];
     }
 
     public function dailyUser()
     {
-        return view('statistic.daily-user');
+        $times = request()->user()->dailyStatistic()->times;
+
+        return [
+            'ok' => true,
+            'view' => view('statistic.daily-user', compact('times'))->render()
+        ];
     }
 }

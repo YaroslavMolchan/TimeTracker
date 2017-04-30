@@ -1,4 +1,5 @@
 $(function() {
+    $('[data-toggle="tooltip"]').tooltip();
     if ($('#work-timer').length > 0) {
         $('#work-timer').timer({
             seconds: window.dailyTime,
@@ -9,7 +10,7 @@ $(function() {
         }
     }
 
-    $(document).on('click', '.start-timer', function (event) {
+    $(document).on('click', '.toggle-timer', function (event) {
         event.preventDefault();
         $.ajax({
             url: $(this).attr('href'),
@@ -19,16 +20,15 @@ $(function() {
         })
         .done(function(response) {
             if (response.ok === true) {
-                //Change button to "Stop"
+                //Toggle button action
                 $(this).parent('li').replaceWith(response.view);
-                //Start timer with work progress
-                $('#work-timer').timer('resume');
+                //Toggle timer
+                $('#work-timer').timer(response.action);
             }
-            console.log("success");
         });
     });
 
-    $(document).on('click', '.stop-timer', function (event) {
+    $(document).on('click', '.get-statistic', function (event) {
         event.preventDefault();
         $.ajax({
             url: $(this).attr('href'),
@@ -38,14 +38,11 @@ $(function() {
         })
         .done(function(response) {
             if (response.ok === true) {
-                //Change button to "Start"
-                $(this).parent('li').replaceWith(response.view);
-                //Stop timer with work progress
-                $('#work-timer').timer('pause');
+                $('.statistic-content').html(response.view);
             }
-            console.log("success");
         });
     });
+
 });
 
 
@@ -53,13 +50,14 @@ $(function() {
 //     var Timer = {
 //         init: function() {
 //             this.timer = $('.work-timer');
-//             this.submitButton = this.form.find('button[type=submit]');
-//             this.submitButtonValue = this.submitButton.html();
+//             this.startSelector = $('.start-timer');
+//             this.stopSelector = $('.stop-timer');
 
 //             this.bindEvents();
 //         },
 
 //         bindEvents: function() {
+
 //             this.form.on('submit', $.proxy(this.sendRequest, this));
 //         },
 
